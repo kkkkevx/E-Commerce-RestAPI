@@ -15,7 +15,7 @@ public class WebOrderQuantities {
     private Product product;
 
     @Column(name = "quantity", nullable = false)
-    private Integer quantities;
+    private Integer quantity;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "web_order_id", nullable = false)
@@ -30,11 +30,11 @@ public class WebOrderQuantities {
     }
 
     public Integer getQuantities() {
-        return quantities;
+        return quantity;
     }
 
     public void setQuantities(Integer quantities) {
-        this.quantities = quantities;
+        this.quantity = quantities;
     }
 
     public Product getProduct() {

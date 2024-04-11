@@ -1,6 +1,8 @@
 package com.kanwen.ecommercerestapi.api.controller.auth;
 
 import com.kanwen.ecommercerestapi.api.exception.UserAlreadyExistsException;
+import com.kanwen.ecommercerestapi.api.model.LoginBody;
+import com.kanwen.ecommercerestapi.api.model.LoginResponse;
 import com.kanwen.ecommercerestapi.api.model.RegistrationBody;
 import com.kanwen.ecommercerestapi.service.UserService;
 import jakarta.validation.Valid;
@@ -26,6 +28,18 @@ public class AuthenticationController {
             return ResponseEntity.ok().build();
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody loginBody) {
+        String jwt = userService.loginUser(loginBody);
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            LoginResponse response = new LoginResponse();
+            response.setJwt(jwt);
+            return ResponseEntity.ok(response);
         }
     }
 }

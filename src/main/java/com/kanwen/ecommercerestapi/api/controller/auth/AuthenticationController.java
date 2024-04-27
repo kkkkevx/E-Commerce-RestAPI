@@ -4,15 +4,16 @@ import com.kanwen.ecommercerestapi.api.exception.UserAlreadyExistsException;
 import com.kanwen.ecommercerestapi.api.model.LoginBody;
 import com.kanwen.ecommercerestapi.api.model.LoginResponse;
 import com.kanwen.ecommercerestapi.api.model.RegistrationBody;
+import com.kanwen.ecommercerestapi.model.LocalUser;
 import com.kanwen.ecommercerestapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,5 +42,10 @@ public class AuthenticationController {
             response.setJwt(jwt);
             return ResponseEntity.ok(response);
         }
+    }
+
+    @GetMapping("/me")
+    public LocalUser getLoggedInUserProfile(@AuthenticationPrincipal LocalUser localUser) {
+        return localUser;
     }
 }
